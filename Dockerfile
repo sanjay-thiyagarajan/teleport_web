@@ -1,5 +1,5 @@
 # Base image
-FROM node
+FROM node:alpine
 
 RUN mkdir -p /usr/src/app
 RUN mkdir -p /usr/src/app/frontend
