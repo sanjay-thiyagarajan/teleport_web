@@ -10,6 +10,10 @@ import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
 import MuiAlert from '@mui/material/Alert';
 import { useHistory } from 'react-router-dom';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 import './styles/SignupPage.css'
 
 function SignupPage() {
@@ -28,7 +32,7 @@ function SignupPage() {
     const defaultPosition = {
         lat: 27.9878,
         lng: 86.9250
-      };
+    };
     let history = useHistory();
 
 
@@ -43,6 +47,17 @@ function SignupPage() {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
 
+    function getBase64(file) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+          return reader.result;
+        };
+        reader.onerror = function (error) {
+          console.log('Error: ', error);
+        };
+     }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -50,16 +65,18 @@ function SignupPage() {
         const password = data.get('password');
         const firstName = data.get('firstName');
         const lastName = data.get('lastName');
+        const gender = data.get('gender');
+        const profilePhoto = getBase64(data.get('profilePhoto'));
         setMessage("Authentication Successful");
     };
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="header" maxWidth="xl" style={{padding: "2%",marginBottom: "1%", color: "white"}}>
-                <Typography component="h1" variant="h4" style={{ fontWeight: 'bold', textAlign: 'left', width: '100%'}}>
+            <Container component="header" maxWidth="xl" style={{ padding: "2%", color: "white" }}>
+                <Typography component="h1" variant="h4" style={{ fontWeight: 'bold', textAlign: 'left', width: '100%' }}>
                     Teleport.
-                    <Typography component="h1" variant="h6" fontSize="50%" >
-                    Contributing towards a carbon-free transit 
+                    <Typography fontSize="50%" >
+                        Contributing towards a carbon-free transit
                     </Typography>
                 </Typography>
             </Container>
@@ -73,11 +90,11 @@ function SignupPage() {
                     alignItems: 'center',
                     background: "white"
                 }}>
-                    <Typography component="h1" variant="h4" style={{ fontWeight: 'bold', marginBottom: '20px', paddingTop: "4%", textAlign: 'left', width: '100%' }}>
+                    <Typography component="h1" variant="h4" style={{ fontWeight: 'bold', marginBottom: '10px', paddingTop: "2%", textAlign: 'left', width: '100%' }}>
                         Signup.
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                        <Grid container spacing={2}>
+                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 2 }}>
+                        <Grid container spacing={1.5}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     autoComplete="given-name"
@@ -118,6 +135,30 @@ function SignupPage() {
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControl variant="filled" required fullWidth={true}>
+                                    <InputLabel>Gender</InputLabel>
+                                    <Select
+                                        id="gender"
+                                        name="gender"
+                                        label="Gender"
+                                        defaultValue={''}
+                                    >
+                                        <MenuItem value="Male">Male</MenuItem>
+                                        <MenuItem value="Female">Female</MenuItem>
+                                        <MenuItem value="Others">Others</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <input
+                                    accept="image/*"
+                                    id="profilePhoto"
+                                    name="profilePhoto"
+                                    type="file"
+                                    required
                                 />
                             </Grid>
                         </Grid>

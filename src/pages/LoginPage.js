@@ -54,7 +54,7 @@ function LoginPage() {
             <Container component="header" maxWidth="xl" style={{padding: "2%",marginBottom: "1%", color: "white"}}>
                 <Typography component="h1" variant="h4" style={{ fontWeight: 'bold', textAlign: 'left', width: '100%'}}>
                     Teleport.
-                    <Typography component="h1" variant="h6" fontSize="50%" >
+                    <Typography fontSize="50%" >
                     Contributing towards a carbon-free transit 
                     </Typography>
                 </Typography>
