@@ -1,6 +1,7 @@
 # Base image
 FROM node:alpine
 
+RUN export npm_config_cache=./cache
 RUN mkdir -p /usr/src/app
 RUN mkdir -p /usr/src/app/frontend
 
