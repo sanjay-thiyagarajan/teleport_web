@@ -15,6 +15,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import './styles/SignupPage.css'
+import { LocationPicker } from '../components/LocationPicker';
 
 function SignupPage() {
     const theme = createTheme({
@@ -160,6 +161,9 @@ function SignupPage() {
                                     type="file"
                                     required
                                 />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <LocationPicker />
                             </Grid>
                         </Grid>
                         <Button
