@@ -14,6 +14,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
+import { Autocomplete } from '@mui/material';
 import './styles/SignupPage.css'
 import { LocationPicker } from '../components/LocationPicker';
 
@@ -30,12 +31,12 @@ function SignupPage() {
     });
     const [messageOpen, setmessageOpen] = React.useState(false);
     const [message, setMessage] = React.useState("");
-    const defaultPosition = {
-        lat: 27.9878,
-        lng: 86.9250
-    };
+    const [workPattern, setWorkPattern] = React.useState([]);
     let history = useHistory();
-
+    const workPatternOptions = {'Monday':'mon', 'Tuesday':'tue', 'Wednesday':'wed', 'Thursday':'thu',  
+    'Friday':'fri', 'Saturday':'sat', 'Sunday':'sun'}
+    const [homeCoordinates, setHomeCoordinates] = React.useState("");
+    const [officeCoordinates, setOfficeCoordinates] = React.useState("");
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -68,6 +69,11 @@ function SignupPage() {
         const lastName = data.get('lastName');
         const gender = data.get('gender');
         const profilePhoto = getBase64(data.get('profilePhoto'));
+        const workShortPattern = [];
+        for(var i=0;i<workPattern.length;i++){
+            workShortPattern.push(workPatternOptions[workPattern[i]]);
+        }
+        console.log(workShortPattern);
         setMessage("Authentication Successful");
     };
 
@@ -139,7 +145,7 @@ function SignupPage() {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <FormControl variant="filled" required fullWidth={true}>
+                                <FormControl variant="outlined" required fullWidth>
                                     <InputLabel>Gender</InputLabel>
                                     <Select
                                         id="gender"
@@ -154,16 +160,34 @@ function SignupPage() {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12}>
-                                <input
-                                    accept="image/*"
-                                    id="profilePhoto"
-                                    name="profilePhoto"
-                                    type="file"
-                                    required
-                                />
+                                <LocationPicker setCoordinates={setHomeCoordinates}/>
                             </Grid>
                             <Grid item xs={12}>
-                                <LocationPicker />
+                                <Autocomplete 
+                                    multiple
+                                    disablePortal
+                                    options={Object.keys(workPatternOptions)}
+                                    name="workPattern"
+                                    onChange={(event, value)=>{
+                                        setWorkPattern(value);
+                                    }} 
+                                    renderInput={(params) => 
+                                    <TextField {...params}
+                                        required 
+                                        label="Work Pattern"
+                                        variant="outlined"
+                                        fullWidth
+                                    />} 
+                                /> 
+                            </Grid>
+                            <Grid item xs={12}>
+                                    <input
+                                        accept="image/*"
+                                        id="profilePhoto"
+                                        name="profilePhoto"
+                                        type="file"
+                                        required
+                                    />
                             </Grid>
                         </Grid>
                         <Button
